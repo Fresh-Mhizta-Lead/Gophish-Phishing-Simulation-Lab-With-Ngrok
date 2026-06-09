@@ -331,4 +331,18 @@ DMARC: Specifies how receiving servers should treat failed authentication checks
 
 ---
 
+🧹 CLEAN-UP OPERATIONS
+After completing your simulation, it is critical to tear down the environment to prevent unauthorized access or reuse of exposed ports:
+
+1. Terminate Active Ngrok Sessions: Press Ctrl+C in your terminal window running the Ngrok agent, or run the following command to kill any orphaned processes:
+
+sudo pkill ngrok
+2. Stop Gophish Engine: Stop the local web-listening process on port 80:
+
+sudo pkill gophish
+3. Clean Temporary Network Rules: Verify your listening ports are clear of active HTTP servers:
+
+sudo lsof -i :80
+sudo lsof -i :3333
+
 
