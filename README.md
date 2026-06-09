@@ -376,4 +376,13 @@ Create Tailored Education Material: Redirect clicked targets immediately to acti
 
 ---
 
+📚 REFERENCES
+Gophish Official User Guide
+
+Ngrok Agent Setup Guidelines
+
+MITRE ATT&CK Framework - Technique T1566: Phishing
+
+CISA Guidelines on Avoiding Social Engineering Attacks
+
 
