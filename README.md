@@ -358,4 +358,13 @@ sudo lsof -i :3333
 
 ---
 
+⚠️ LIMITATIONS
+Temporary Public URLs: Ngrok's free tier assigns dynamic names that change on restart.
+
+Credential Capture Disabled: Kept credential tracking deactivated to maintain security and focus on awareness tracking.
+
+Egress Mail Filters: SMTP accounts can be throttled or blocked by providers if simulation traffic mimics mass spam runs.
+
+---
+
 
