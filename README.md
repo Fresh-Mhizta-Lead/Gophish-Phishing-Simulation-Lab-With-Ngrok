@@ -345,4 +345,17 @@ sudo pkill gophish
 sudo lsof -i :80
 sudo lsof -i :3333
 
+---
+
+🔍 KEY LEARNINGS
+✔ Gophish Administration: Learned how to deploy, configure, and maintain a centralized phishing simulation platform.
+
+✔ Ingress Tunneling: Handled reverse HTTP routing to route public web traffic safely back to local servers.
+
+✔ SMTP Routing Integration: Experienced SMTP mail transfer setups, custom headers, and App Password configurations.
+
+✔ Interaction Engineering: Analyzed user-agent metadata and timeline details to measure risk response rates.
+
+---
+
 
