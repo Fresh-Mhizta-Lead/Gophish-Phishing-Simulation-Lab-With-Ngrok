@@ -92,4 +92,34 @@ The following tree describes the state of the active server workspace directory 
 
 ---
 
+🏗️ SYSTEM ARCHITECTURE & ATTACK FLOW
+The network flow chart below outlines how the components work together to direct external targets through the reverse tunnel back to your local environment:
+
+               +--------------------------------------------------------+
+               |                    External Target                     |
+               |                (Recipient Inbox Client)                |
+               +--------------------------------------------------------+
+                     |                                            ^
+             (1) Recovers Email                            (3) Requests Phishing
+             via SMTP Relay                                     Landing Page
+                     |                                            |
+                     v                                            v
+     +-------------------------------+             +------------------------------+
+     |   Gmail SMTP Relay Servers    |             |       Ngrok Edge Node        |
+     |       (smtp.gmail.com)        |             |   (*.ngrok-free.dev)         |
+     +-------------------------------+             +------------------------------+
+                     ^                                            ^
+                     | (Dispatches Phishing Mail)                 | (Proxies Inbound HTTPS)
+                     |                                            |
+     +----------------------------------------------------------------------------+
+     |                       Your Kali Linux Local Machine (Ally)                 |
+     |                                                                            |
+     |  +--------------------+   (2) Establish Tunnel   +---------------------+   |
+     |  |   Gophish Engine   |------------------------->|     Ngrok Agent     |   |
+     |  |   (Port 80/3333)   |<-------------------------|    (Port 80 HTTP)   |   |
+     |  +--------------------+  (4) Captures Metrics    +---------------------+   |
+     +----------------------------------------------------------------------------+
+
+---
+
 
