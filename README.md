@@ -385,4 +385,13 @@ MITRE ATT&CK Framework - Technique T1566: Phishing
 
 CISA Guidelines on Avoiding Social Engineering Attacks
 
+---
 
+👤 AUTHOR
+Diane Ally Lamine
+
+Cybersecurity Awareness & Simulation Project
+
+---
+
+⭐ If you find this laboratory guide helpful for your training or security portfolio, please star this repository!
