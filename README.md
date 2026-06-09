@@ -89,7 +89,10 @@ The following tree describes the state of the active server workspace directory 
 ├── templates/                          # Front-end user HTML designs[cite: 2]
 ├── static/                             # Web interface styles, images, and scripting files[cite: 2]
 └── LICENSE / VERSION                   # System documentation[cite: 2]
-🏗️ SYSTEM ARCHITECTURE & ATTACK FLOW
+
+---
+
+## 🏗️ SYSTEM ARCHITECTURE & ATTACK FLOW
 The network flow chart below outlines how the components work together to direct external targets through the reverse tunnel back to your local environment:
 
                +--------------------------------------------------------+
@@ -117,7 +120,9 @@ The network flow chart below outlines how the components work together to direct
      |  +--------------------+  (4) Captures Metrics    +---------------------+   |
      +----------------------------------------------------------------------------+
 
-⚙️ DETAILED SETUP PROCESS
+---
+
+## ⚙️ DETAILED SETUP PROCESS
 🔹 Phase 1: Environment & Tool Setup
 Ensure that dependency download utilities are updated inside your Kali system:
 
