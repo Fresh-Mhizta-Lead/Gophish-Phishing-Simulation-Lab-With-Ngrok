@@ -286,3 +286,49 @@ Select Sending Profile: gmail SMTP lab.
 Select Target Group: Awareness-Test-Group.
 
 Click Launch Campaign.
+
+---
+
+📊 RESULTS & OBSERVATIONS
+Once the campaign was launched, external targets opened their simulated emails and clicked the links. GoPhish tracked and analyzed these live metrics:
+
+2026-05-12 10:08:35  [Campaign Setup] Campaign Created - Awareness-Test 2
+2026-05-12 10:08:39  [SMTP Relay] Dispatching outbound simulated emails...
+2026-05-12 10:08:39  [Email Sent] Successfully delivered to dianeally08@gmail.com
+2026-05-12 10:10:15  [Tracking Inbound] Target clicked tracking link (dianeally08@gmail.com)
+                     └ Device: Android (OS Version: 10) | Browser: Chrome (Version: 138.0.0.0)
+
+Campaign Comparison Matrix
+Campaign	Target Count	Sent	Opened	Clicked	Submitted Data	Conversion Rate
+Awareness-Test 1 (Local)	2	2	0	0	0 (None)	0%
+Awareness-Test 2 (Tunnel)	2	2	1	1	0 (Disabled)	50%
+Conclusion of Run 2: The second campaign verified that the attack chain worked, confirming the target clicked the link. Both the Gophish logs and Ngrok console verified real-time inbound requests.
+
+🛡️ POST-SIMULATION DEBRIEF (DEFENSIVE ENGINEERING)
+1. Mechanics of Tracking
+Open Rate (1x1 Pixel): Gophish inserts an invisible image into HTML templates: <img src="https://available-spotter-sharpie.ngrok-free.dev/track?rid=unique_id" />. When the email client loads this pixel, the transaction maps back to that recipient in the database.
+
+Click-Through (Link Modification): Gophish converts the {{.URL}} placeholder into a unique URL string: https://available-spotter-sharpie.ngrok-free.dev/?rid=unique_id. This registers the click on our server before loading the landing page.
+
+2. Detections and System Protections
+Network Detection (Spotting Tunneling Software)
+Security Operations Centers (SOC) can locate unauthorized tunneling tools inside their environments using these detection concepts:
+
+DNS Monitoring: Creating alerts for DNS queries containing known hosting subdomains (e.g., *.ngrok.io, *.ngrok-free.dev).
+
+Process Spawning Analysis: Checking system events for executing commands like ngrok http or other tunnel patterns.
+
+Persistent Outbound Connections: Firewalls can look for persistent outbound TCP connections to external proxies that don't match standard server traffic.
+
+Technical Email Hardening
+To prevent domain spoofing in live environments, configure correct email authentication tags on corporate domains:
+
+SPF (Sender Policy Framework): Specifies which IP addresses are authorized to send mail for your domain.
+
+DKIM (DomainKeys Identified Mail): Uses cryptographic keys to verify the email headers weren't altered in transit.
+
+DMARC: Specifies how receiving servers should treat failed authentication checks (e.g., dropping the message or routing to spam).
+
+---
+
+
