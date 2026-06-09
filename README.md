@@ -92,7 +92,7 @@ The following tree describes the state of the active server workspace directory 
 
 ---
 
-🏗️ SYSTEM ARCHITECTURE & ATTACK FLOW
+## 🏗️ SYSTEM ARCHITECTURE & ATTACK FLOW ##
 The network flow chart below outlines how the components work together to direct external targets through the reverse tunnel back to your local environment:
 
                +--------------------------------------------------------+
