@@ -122,4 +122,167 @@ The network flow chart below outlines how the components work together to direct
 
 ---
 
+## ⚙️ DETAILED SETUP PROCESS
+🔹 Phase 1: Environment & Tool Setup
+Ensure that dependency download utilities are updated inside your Kali system:
 
+sudo apt update
+sudo apt install wget unzip curl git -y
+Construct your dedicated project workspace and move into it:
+
+mkdir ~/gophish-lab
+cd ~/gophish-lab
+Download the official Gophish Linux 64-bit release zipped archive:
+
+wget [https://github.com/gophish/gophish/releases/download/v0.12.1/gophish-v0.12.1-linux-64bit.zip](https://github.com/gophish/gophish/releases/download/v0.12.1/gophish-v0.12.1-linux-64bit.zip)
+Extract the zip files:
+
+unzip gophish-v0.12.1-linux-64bit.zip
+🔹 Phase 2: Launching Server & Admin Setup
+Add executable permissions to the binary, and start Gophish using sudo privileges (this is necessary to bind the web interface to HTTP port 80):
+
+chmod +x gophish
+sudo ./gophish
+During initialization, check your stdout console logs to capture the temporary admin password generated:
+
+time="2026-05-11T09:53:12-04:00" level=info msg="Please login with the username admin and the password f5fd937c07098e9c"
+
+Navigate to the local admin interface: https://127.0.0.1:3333
+
+At the login page, enter the default credentials:
+
+Username: admin
+
+Password: f5fd937c07098e9c
+
+Click Sign in.
+
+You will immediately be routed to the Reset Your Password page. Enter the temporary password, choose a strong custom password, and click Save Password.
+
+Once saved, you will land on the main Gophish Dashboard.
+
+🔹 Phase 3: Building Campaign Components
+To execute a phishing simulation campaign, the four modular blocks of Gophish must be configured sequentially.
+
+1. Landing Page Setup
+Navigate to Landing Pages and click + New Page.
+
+Set Name: Awareness-Test.
+
+Click Save. (In real simulations, educational alerts or informational banners are designed here).
+
+2. Email Template Setup
+Navigate to Email Templates and click + New Template.
+
+Set Name: Awareness-Email.
+
+Set Envelope Sender: awareness@lab.local.
+
+Set Subject: Security Awareness Exercise.
+
+Navigate to the HTML tab and use:
+
+  <p>Your account password will expire today.<br>
+  Please reset it immediately.</p>
+  <p><a href="{{.URL}}">Reset Password</a></p>
+Save the template.
+3. Users & Groups Configuration
+Navigate to Users & Groups and click + New Group.
+
+Set Name: Awareness-Test-Group.
+
+Add the target simulation users:
+
+User 1: First: text | Last: user | Email: dianeally08@gmail.com | Position: Engineer
+
+User 2: First: text | Last: user | Email: delux6617@gmail.com | Position: Manager
+
+Click Save changes.
+
+4. Sending Profile (SMTP Relay) Configuration
+Navigate to Sending Profiles and click + New Profile.
+
+Set Name: gmail SMTP lab.
+
+Set Interface Type: SMTP.
+
+Set SMTP From: dianeally08@gmail.com.
+
+Set Host: smtp.gmail.com:587.
+
+Set Username: dianeally08@gmail.com.
+
+Set Password: (Use your dedicated 16-character Google App Password).
+
+Click Save Profile.
+
+🔹 Phase 4: Run 1 - Baseline Simulation (Local Loopback)
+The first test verified the configurations without external exposure.
+
+Navigate to Campaigns ➔ + New Campaign.
+
+Set Name: Awareness-Email (Baseline run).
+
+Select Template: Awareness-Email.
+
+Select Landing Page: Awareness-Test.
+
+Set URL: http://127.0.0.1:3333 (Points internally).
+
+Select Sending Profile: gmail SMTP lab.
+
+Select Target Group: Awareness-Test-Group.
+
+Click Launch Campaign.
+
+Baseline Campaign Results: Outbound SMTP delivery successfully passed through Google. The Gophish dashboard showed 2 Emails Sent. However, because the target link pointed to a localized administrative IP, the emails could not reach back to the host.
+
+Result Metrics: 2 Sent | 0 Opened | 0 Clicked | 0 Data Submitted.
+
+🔹 Phase 5: WAN Tunneling Integration (Ngrok)
+To solve the external routing restriction, Ngrok was used to configure a secure egress proxy.
+
+Confirm Gophish is running and listening on port 80:
+
+sudo ./gophish
+Install and extract the Ngrok package:
+
+tar -xvzf ngrok-v3-stable-linux-amd64.tgz
+sudo mv ngrok /usr/local/bin/
+ngrok version
+Authenticate your Ngrok terminal agent using your private token:
+
+ngrok config add-authtoken 3DcsX9wWraGOwXn1ZHIcf...
+Expose local HTTP port 80 over the public WAN interface:
+
+ngrok http 80
+Ngrok Connection Telemetry Output
+Session Status      online
+Account             dianeally08@gmail.com (Plan: Free)
+Version             3.39.1
+Region              United States (us)
+Latency             431ms
+Forwarding          [https://available-spotter-sharpie.ngrok-free.dev](https://available-spotter-sharpie.ngrok-free.dev) -> http://localhost:80
+
+The URL https://available-spotter-sharpie.ngrok-free.dev is the public forwarding URL.
+
+🔹 Phase 6: Run 2 - Live Simulation & Metric Capture
+Now a second campaign was created utilizing the active Ngrok forwarding link.
+
+Navigate to Campaigns ➔ + New Campaign.
+
+Set Name: Awareness-Test 2.
+
+Select Template: Awareness-Email.
+
+Select Landing Page: Awareness-Test.
+
+Set URL: https://available-spotter-sharpie.ngrok-free.dev (Ngrok Forwarding Domain).
+
+Set Launch Date: May 12th, 2026, 9:50 AM.
+
+Select Sending Profile: gmail SMTP lab.
+
+Select Target Group: Awareness-Test-Group.
+
+Click Launch Campaign.
