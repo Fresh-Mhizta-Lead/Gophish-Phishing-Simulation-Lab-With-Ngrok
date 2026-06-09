@@ -367,4 +367,13 @@ Egress Mail Filters: SMTP accounts can be throttled or blocked by providers if s
 
 ---
 
+🚀 FUTURE IMPROVEMENTS
+Implement SSL/TLS certificates: Add certificates to landing pages using Let's Encrypt for added realism.
+
+Custom Domain Configuration: Replace standard Ngrok subdomains with purchased custom domains.
+
+Create Tailored Education Material: Redirect clicked targets immediately to active educational material to maximize training impact.
+
+---
+
 
